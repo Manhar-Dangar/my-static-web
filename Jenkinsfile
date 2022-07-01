@@ -5,9 +5,7 @@ agent any
 stages{
 
     stage('Docker Build and Push to dev ecr') {
-        when {
-            branch "master"
-        }
+
         steps {
             echo "Building phase started."
             nodejs('NodeJS-16.0.0') {
