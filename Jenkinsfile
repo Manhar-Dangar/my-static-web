@@ -14,5 +14,14 @@ stages{
            sh "docker push 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
         }
     }
+   
+   stage('Deploy to EKS') {
+
+        steps {
+            echo "Deploying phase started."
+           sh "kubectl apply -f deployment.yaml"
+        }
+    }
+   
  }
 } 
