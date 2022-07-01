@@ -1,46 +1,24 @@
-variables:
-  DOCKER_REGISTRY: 635261526007.dkr.ecr.us-east-1.amazonaws.com
-  APP_NAME: web
 pipeline {
-    agent any
 
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-                    sh docker info
-                    sh docker build -t 635261526007.dkr.ecr.us-east-1.amazonaws.com/web . 
-            }
+agent any
+   
+stages{
+
+    stage('Docker Build and Push to dev ecr') {
+        when {
+            branch "master"
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
+        steps {
+            echo "Building phase started."
+            nodejs('NodeJS-16.0.0') {
+               
+               sh 'pm2 --version'
             }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                  image: 
-                    name: $DOCKER_REGISTRY/$APP_NAME:"$TAG"
-                    services:
-                        sh docker:dind
-                        sh aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-                        sh docker push 635261526007.dkr.ecr.us-east-1.amazonaws.com/web
-                        sh docker rmi 635261526007.dkr.ecr.us-east-1.amazonaws.com/web
-            }
+            sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 635261526007.dkr.ecr.us-east-1.amazonaws.com"
+            sh "docker build -t web ." 
+            sh "docker push 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
+            
         }
     }
+ }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
