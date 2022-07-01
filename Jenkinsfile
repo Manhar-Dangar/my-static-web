@@ -1,47 +1,46 @@
+variables:
+  DOCKER_REGISTRY: 635261526007.dkr.ecr.us-east-1.amazonaws.com
+  APP_NAME: web
 pipeline {
     agent any
-    environment {
-        AWS_ACCOUNT_ID="635261526007"
-        AWS_DEFAULT_REGION="us-east-1" 
-        IMAGE_REPO_NAME="ECR_REPO_NAME"
-        IMAGE_TAG="IMAGE_TAG"
-        REPOSITORY_URI = "${635261526007}.dkr.ecr.${us-east-1}.amazonaws.com/${web}"
-    }
-   
+
     stages {
-        
-         stage('Logging into AWS ECR') {
+        stage('Build') {
             steps {
-                script {
-                sh "aws ecr get-login-password --region ${us-east-1} | docker login --username AWS --password-stdin ${635261526007}.dkr.ecr.${us-east-1}.amazonaws.com"
-                }
-                 
+                echo 'Building..'
+                    sh docker info
+                    sh docker build -t 635261526007.dkr.ecr.us-east-1.amazonaws.com/web . 
             }
         }
-        
-        stage('Cloning Git') {
+        stage('Test') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/Manhar-Dangar/my-static-web.git']]])     
+                echo 'Testing..'
             }
         }
-  
-    // Building Docker images
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build "${web}:${latest}"
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+                  image: 
+                    name: $DOCKER_REGISTRY/$APP_NAME:"$TAG"
+                    services:
+                        sh docker:dind
+                        sh aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+                        sh docker push 635261526007.dkr.ecr.us-east-1.amazonaws.com/web
+                        sh docker rmi 635261526007.dkr.ecr.us-east-1.amazonaws.com/web
+            }
         }
-      }
-    }
-   
-    // Uploading Docker images into AWS ECR
-    stage('Pushing to ECR') {
-     steps{  
-         script {
-                sh "docker tag ${web}:${IMAGE_TAG} ${635261526007.dkr.ecr.us-east-1.amazonaws.com/web}:$latest"
-                sh "docker push ${635261526007}.dkr.ecr.${us-east-1}.amazonaws.com/${web}:${latest}"
-         }
-        }
-      }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
