@@ -19,7 +19,7 @@ stages{
 
         steps {
             echo "Deploying phase started."
-           sh "kubectl apply -f deployment.yaml"
+           sh "kubectl create -f deployment.yaml"
         }
     }
    
