@@ -19,8 +19,8 @@ stages{
 
         steps {
             echo "Deploying phase started."
-           sh "kubectl delete -f deployment.yaml"
-           sh "kubectl create -f deployment.yaml"
+           sh "kubectl delete -f nginx"
+           sh "kubectl apply deployment.yaml"
         }
     }
    
