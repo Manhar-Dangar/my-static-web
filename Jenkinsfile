@@ -9,9 +9,9 @@ stages{
         steps {
             echo "Building phffase started." 
            sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 635261526007.dkr.ecr.us-east-1.amazonaws.com"
-           sh "docker build -t web ."
-           sh "docker tag web:latest 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
+           sh "docker build -t 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
            sh "docker push 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
+          
         }
     }
    
@@ -20,9 +20,10 @@ stages{
         steps {
            echo "Deploying phase started."
            echo "previous Deployment Deleting"
-           sh "kubectl delete -f  deployment.yaml"
+           sh "kubectl rollout restart deployment nginx"
            echo "New Deployment starting..."
            sh "kubectl apply -f deployment.yaml"
+           sh "docker rmi 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
         }
     }
    
