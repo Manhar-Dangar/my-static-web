@@ -4,7 +4,7 @@ agent any
 
 stages{      
    stage('SonarQube analysis') {
-    def sonarqubeScannerHome = tool name: 'sonar-instance'
+    sh "def sonarqubeScannerHome = tool name: 'sonar-instance'"
     sh "${sonarqubeScannerHome}/bin/sonar-scanner"
 }
    
