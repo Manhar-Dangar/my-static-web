@@ -3,20 +3,7 @@ pipeline {
 agent any 
    
 stages{  
-
-  stage('SCM') {
-    checkout scm
-  }
-  stage('SonarQube Analysis') {
-    def scannerHome = tool 'Sonar-instance';
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
-    }
-  }
-}
-
-   
-    stage('Docker Build and Push to dev ecr') {
+   stage('Docker Build and Push to dev ecr') {
  
         steps {
             echo "Building phffase started." 
@@ -40,4 +27,4 @@ stages{
     }
    
  }
-
+}
