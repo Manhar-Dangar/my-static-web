@@ -4,7 +4,6 @@ agent any
    
 stages{ 
 
-      node {
   stage('SCM') {
     checkout scm
   }
@@ -15,7 +14,7 @@ stages{
     }
   }
 }
-}
+
    
     stage('Docker Build and Push to dev ecr') {
  
