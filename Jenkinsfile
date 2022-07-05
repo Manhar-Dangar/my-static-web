@@ -1,8 +1,9 @@
 pipeline {
 
 agent any 
-   
-         node {
+    
+stages{ 
+  
   stage('SCM') { 
     checkout scm
   }
@@ -12,10 +13,7 @@ agent any
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
-}
-   
-   
-stages{ 
+
    
     stage('Docker Build and Push to dev ecr') {
  
