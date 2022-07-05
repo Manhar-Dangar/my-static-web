@@ -2,7 +2,7 @@ pipeline {
 
 agent any 
 
-stages{         
+stages{          
  
     stage('SonarQube Analysis') {
      def scannerHome = tool 'sonarqube-instance';
