@@ -3,6 +3,18 @@ pipeline {
 agent any 
    
 stages{  
+   
+   
+   
+  stage('SonarQube Analysis') {
+    def scannerHome = tool 'SonarScanner';
+    withSonarQubeEnv() steps {
+      sh "${scannerHome}/bin/sonar-scanner"
+      echo "hello"
+    }
+  
+   
+   
    stage('Docker Build and Push to dev ecr') {
  
         steps {
