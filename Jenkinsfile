@@ -5,7 +5,7 @@ agent any
 stages{ 
 
       node {
-  stage('SCM') {
+  stage('SCM') { 
     checkout scm
   }
   stage('SonarQube Analysis') {
