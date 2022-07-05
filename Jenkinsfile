@@ -10,6 +10,7 @@ stages{
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
+}
    
    
    stage('Docker Build and Push to dev ecr') {
