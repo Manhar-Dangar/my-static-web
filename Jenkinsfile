@@ -4,12 +4,26 @@ agent any
 
 stages{          
  
-    stage('SonarQube Analysis') {
-     def scannerHome = tool 'sonarqube-instance';
-      withSonarQubeEnv() {
-       sh "${scannerHome}/bin/sonar-scanner" 
-      }
-    }    
+    
+    
+        stage('Clone sources') {
+            steps {
+                git url: 'https://github.com/Manhar-Dangar/my-static-web.git'
+            }
+        }
+        stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('sonar-instance') {
+                    sh "./gradlew sonarqube"
+                }
+            }
+        }
+        stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+      
        
    stage('Docker Build and Push to dev ecr') {
  
