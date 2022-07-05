@@ -1,20 +1,29 @@
 pipeline {
 
 agent any 
-  def scannerHome = tool 'sonar-instance';  
+tools {nodejs "node_v10"}  
 stages{  
-   
-   stage('Test with sonarqube'){
-      steps {
-         echo "hello test here"
-        
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
+  
+   stage('Git Pull') {
+       steps {
+          echo 'Code Checkout'
+          }
+        }
+    
+     stage('Code scan Sonarqube') {
+        steps {
+          script {
+       def scannerHome = tool 'sonar-instance';
+       withSonarQubeEnv("sonarqube-container") {
+       sh """${tool("sonarqube")}/bin/sonar-scanner \
+       -Dsonar.projectKey=test-node-js \
+       -Dsonar.sources=. \
+       -Dsonar.projectName=test-node-js \
+       -Dsonar.projectVersion=1.0 """
+           }
+       } 
     }
-      }
-   
-   }
-   
+       
    stage('Docker Build and Push to dev ecr') {
  
         steps {
