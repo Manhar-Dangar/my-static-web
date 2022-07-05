@@ -15,6 +15,7 @@ stages{
     }
   }
 }
+}
    
     stage('Docker Build and Push to dev ecr') {
  
