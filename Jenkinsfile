@@ -2,19 +2,16 @@ pipeline {
 
 agent any 
 
-stages{          
-
-   node {
-  stage('SCM') {
-    checkout scm
-  }
-  stage('SonarQube Analysis') {
-    def scannerHome = tool 'sonar-instance';
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
-    }
-  }
-}
+stages{      
+   
+           stage('sonarqube') {
+            steps {
+                def scannerHome = tool 'sonar-instance'
+                withSonarQubeEnv('SonarQube') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
    
    stage('Docker Build and Push to dev ecr') {
  
