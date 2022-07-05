@@ -2,9 +2,7 @@ pipeline {
 
 agent any 
    
-stages{ 
-
-      node {
+         node {
   stage('SCM') { 
     checkout scm
   }
@@ -15,6 +13,9 @@ stages{
     }
   }
 }
+   
+   
+stages{ 
    
     stage('Docker Build and Push to dev ecr') {
  
