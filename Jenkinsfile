@@ -5,12 +5,13 @@ agent any
 stages{  
    
     stage('SonarQube Analysis') {
+       
     def scannerHome = tool 'sonar-instance';
-    withSonarQubeEnv() {
+    withSonarQubeEnv() steps {
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
-}
+
    
    
    stage('Docker Build and Push to dev ecr') {
