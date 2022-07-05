@@ -6,7 +6,7 @@ stages{
        
    stage('Sonarqube') {
     environment {
-        scannerHome = tool 'SonarQubeScanner'
+        scannerHome = tool 'sonarqube-instance'
     }
     steps {
         withSonarQubeEnv('sonarqube') {
