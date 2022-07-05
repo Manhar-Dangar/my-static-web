@@ -7,6 +7,10 @@ stages{
    stage('Test with sonarqube'){
       steps {
          echo "hello test here"
+         def scannerHome = tool 'sonar-instance';
+    withSonarQubeEnv() {
+      sh "${scannerHome}/bin/sonar-scanner"
+    }
       }
    
    }
