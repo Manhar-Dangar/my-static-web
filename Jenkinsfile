@@ -1,5 +1,5 @@
 pipeline {
-
+    
 agent any 
     stages
     {
@@ -11,7 +11,6 @@ agent any
            sh "docker build -t 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest ."
             echo "Pushing Image to ECR"
            sh "docker push 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
-          
         }
     }
    
@@ -24,7 +23,5 @@ agent any
            sh "docker rmi 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
         }
     }
-    }
- 
+  }
 } 
- 
