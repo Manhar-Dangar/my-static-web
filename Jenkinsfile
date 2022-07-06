@@ -1,22 +1,8 @@
-     pipeline {
-        agent none
-        stages {
-          stage("build & SonarQube analysis") {
-            agent any
-            steps {
-              withSonarQubeEnv('sonar-instance') {
-                sh 'mvn clean package sonar:sonar'
-              }
-            }
-          }
-          stage("Quality Gate") {
-            steps {
-              timeout(time: 1, unit: 'HOURS') {
-                waitForQualityGate abortPipeline: true
-              }
-            }
-          }
-            
+pipeline {
+
+agent any 
+    stages
+    {
     stage('Docker Build and Push to dev ecr') {
  
         steps {
@@ -38,10 +24,7 @@
            sh "kubectl apply -f deployment.yaml"
            sh "docker rmi 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
         }
-    }            
-            
-        }
-      }
-
-
-
+    }
+    }
+ 
+} 
