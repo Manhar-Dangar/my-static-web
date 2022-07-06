@@ -19,7 +19,7 @@ agent any
 
         steps {
            echo "Deploying phase started"
-           sh "kubectl rollout restart deployment nginx"
+           sh "kubectl rollout restart deployment node-app"
            sh "kubectl apply -f deployment.yaml"
            sh "docker rmi 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
         }
