@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
 
 agent any  
    stage('Docker Build and Push to dev ecr') {
