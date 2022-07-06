@@ -8,8 +8,8 @@ spec:
   selector:
     matchLabels:
       app: node-app
-  replicas: 3 # tells deployment to run 1 pods matching the template
-  template: # create pods using pod definition in this template
+  replicas: 3 
+  template: 
     metadata:
       labels:
         app: node-app
