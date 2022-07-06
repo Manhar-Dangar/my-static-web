@@ -1,7 +1,8 @@
 pipeline {
 
 agent any 
-    
+    stages
+    {
     stage('Docker Build and Push to dev ecr') {
  
         steps {
@@ -24,6 +25,6 @@ agent any
            sh "docker rmi 635261526007.dkr.ecr.us-east-1.amazonaws.com/web:latest"
         }
     }
-   
+    }
  
 } 
